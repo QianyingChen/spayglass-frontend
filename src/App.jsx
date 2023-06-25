@@ -1,18 +1,20 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { Home } from './pages/Home';
 import { Error } from './pages/Error';
-// import { AppNav } from './components/AppNav';
+import { Home } from './pages/Home';
+import { Goals } from './pages/Goals';
+import { Navbar } from './components/NavBar';
+
 
 export default function App() {
   return (
       <BrowserRouter>
-          {/* <AppNav /> */}
+
+          <Navbar />
           <Routes>
               <Route path="/" element={<Home />} />
-              {/* <Route path="/" element={< />} /> */}
+              <Route path="/goals" element={<Goals />} />
               <Route path="*" element={<Error />} />
-          </Routes>
-          
+          </Routes>        
       </BrowserRouter>
   )
 }
