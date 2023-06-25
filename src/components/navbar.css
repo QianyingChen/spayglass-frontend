@@ -7,9 +7,11 @@ nav {
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.06);
 }
 
-h1 {
-  font-size: 30px; 
-  color: #fff; 
+.navbar-logo {
+  text-decoration: none;
+  font-size: 2.2rem;
+  font-weight: bold;
+  color: #fff;
 }
 
 #navbar {

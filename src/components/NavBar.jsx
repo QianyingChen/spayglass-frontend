@@ -25,11 +25,16 @@ export function Navbar() {
   return (
     <>
       <nav>
-        <h1>Spyglass</h1>
+        {/* <h1>Spyglass</h1> */}
+        <NavLink exact to="/" className="navbar-logo">
+          Spyglass
+        </NavLink>
         <div id="navbar" className={mobileMenuOpen ? 'active' : ''}>
           <ul>
             <li>
-              <a className='active' href='index.html'>Home</a>
+             <NavLink exact to="/" activeClassName="active">
+                Home
+              </NavLink>
             </li>
             <li>
               <a href='index.html'>Star your saving today</a>
