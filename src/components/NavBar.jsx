@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
@@ -32,12 +32,18 @@ export function Navbar() {
         <div id="navbar" className={mobileMenuOpen ? 'active' : ''}>
           <ul>
             <li>
-             <NavLink exact to="/" activeClassName="active">
+             {/* <NavLink exact to="/" activeClassName="active">
                 Home
+              </NavLink> */}
+              <NavLink to="/" end activeClassName="active">
+                        Home
               </NavLink>
             </li>
             <li>
-              <a href='index.html'>Star your saving today</a>
+              {/* <a href='index.html'>Star your saving today</a> */}
+              <NavLink to="/goals" activeClassName="active">
+                       Goals
+              </NavLink>
             </li>
             <li>
               <a href='index.html'>Login</a>
