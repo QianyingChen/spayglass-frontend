@@ -4,12 +4,10 @@ import { Home } from "./pages/Home";
 import { Goals } from './pages/Goals';
 import { Navbar } from './components/NavBar';
 import { Profile } from './pages/Profile';
-// import { Provider } from 'react-redux';
-// import store from './store';
+
 
 const App = () => {
   return (
-    // <Provider store={store}>
        <BrowserRouter>
           <Navbar />
           <Routes>
@@ -19,7 +17,7 @@ const App = () => {
               <Route path="*" element={<Error />} />
           </Routes>        
       </BrowserRouter>
-      // </Provider>
+
   )
 }
 

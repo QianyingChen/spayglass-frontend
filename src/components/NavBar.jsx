@@ -12,7 +12,7 @@ export function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   // const [loggedIn, setLoggedIn] = useState(false);
   const { data: userInfo } = useUserInfoQuery();
-  const { isLoading: signinLoading, refetch: refetchUserInfo } = useSigninQuery();
+  // const { isLoading: signinLoading, refetch: refetchUserInfo } = useSigninQuery();
   const [signout, { isLoading: signoutLoading }] = useSignoutMutation({
     onSettled: () => {
       refetchUserInfo(); // Refresh user info after signout
