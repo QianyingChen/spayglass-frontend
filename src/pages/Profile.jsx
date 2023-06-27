@@ -3,8 +3,8 @@ import { useSelector } from 'react-redux';
 import { useUserInfoQuery } from '../api/userAPi';
 import { Avatar, Typography } from '@mui/material';
 
+
 export function Profile() {
-  // const { data } = useSelector((state) => state.userApi.userInfo ?? {});
 
   const { isLoading, data: userInfo } = useUserInfoQuery();
   console.log('userInfo:', userInfo)

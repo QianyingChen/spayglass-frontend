@@ -32,7 +32,7 @@ nav {
 }
 
 #navbar li:last-child {
-  margin-right: 0;
+  margin-right: auto;
 }
 
 #navbar li a {
@@ -58,6 +58,15 @@ nav {
   bottom: -4px;
   left: 50%;
   transform: translateX(-50%);
+}
+
+.user-profile {
+  display: flex;
+  align-items: center;
+}
+
+.user-profile .MuiAvatar-root {
+  margin-left: 3px;
 }
 
 #mobile {

@@ -4,7 +4,8 @@ import { useSigninQuery, useUserInfoQuery, useSignoutMutation } from '../api/use
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import LanguageIcon from '@mui/icons-material/Language';
-import { IconButton, Menu, MenuItem } from '@mui/material';
+import { IconButton, Menu, MenuItem, Avatar } from '@mui/material';
+
 import './navbar.css';
 
 export function Navbar() {
@@ -81,19 +82,21 @@ export function Navbar() {
                 </a>
               </li>
 
-            <li>
+              <li>
               <IconButton color="inherit" onClick={handleMenuOpen}>
                 <LanguageIcon fontSize="medium" style={{ color: '#fff' }} />
               </IconButton>
-              <Menu
-                anchorEl={anchorEl}
-                open={Boolean(anchorEl)}
-                onClose={handleMenuClose}
-              >
+              <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleMenuClose}>
                 <MenuItem onClick={() => i18n.changeLanguage('en')}>English</MenuItem>
                 <MenuItem onClick={() => i18n.changeLanguage('cn')}>Chinese</MenuItem>
               </Menu>
             </li>
+            {userInfo && (
+              <li className="user-profile">
+                <Avatar alt={userInfo.name} src={userInfo.picture} />
+              </li>
+            )}
+
           </ul>
         </div>
 
@@ -105,6 +108,7 @@ export function Navbar() {
           )}
         </div>
       </nav>
+      
     </>
   );
 } 
