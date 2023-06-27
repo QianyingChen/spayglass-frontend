@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { Provider } from 'react-redux';
 import App from './App.jsx'
-import store from './reduxStore.js'
+import store from './store.js'
 // import {I18nextProvider} from 'react-i18next' 
 
 

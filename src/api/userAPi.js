@@ -1,11 +1,11 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
 
-const apiUrl = import.meta.env.VITE_API_URL;
+// const apiUrl = import.meta.env.VITE_API_URL;
 
 export const userApi = createApi({
   reducerPath: 'userApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: apiUrl,
+    baseUrl: 'http://localhost:8080',
     credentials: 'include'
   }),
   endpoints: (builder) => ({
@@ -14,15 +14,22 @@ export const userApi = createApi({
         url: '/signin'
       })
     }),
-    UserInfo: builder.query({
+    userInfo: builder.query({
       query: () => ({
         url: '/userinfo'
+      }) 
+    }),
+    signout: builder.mutation({
+      query: () => ({
+        method: 'GET',
+        url: '/signout'
       })
     })
   })
-})
+});
 
   export const {
     useSigninQuery,
-    useUserInfoQuery
+    useUserInfoQuery,
+    useSignoutMutation
   } = userApi;
