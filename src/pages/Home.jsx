@@ -9,32 +9,13 @@ export function Home() {
     const [userData, setUserData] = useState('');
     const { data } = useUserInfoQuery();
     console.log(data)
-      useEffect(() => {
-        fetch('http://localhost:8080/userinfo', { credentials: 'include', method: 'GET' })
-          .then(data => data.text())
-          .then(token => setAccessToken(token))
-          .then(user => setUserData(user)) // Do not set as state, stored in session storage OR in a HttpOnly cookie
-          .catch(() => { /* Redirect to http://localhost:8080/signin */ } );
-      }, []);
-
-          // useEffect(() => {
-    //     fetch('http://localhost:8080/userinfo', { credentials: 'include', method: 'GET' })
-    //       .then(response => {
-    //         if (response.ok) {
-    //           return response.json();
-    //         } else {
-    //           throw new Error('Failed to fetch user data');
-    //         }
-    //       })
-    //       .then(data => {
-    //         setAccessToken(data.accessToken);
-    //         setUserData(data.user);
-    //       })
-    //       .catch(error => {
-    //         console.error(error);
-    //         // Redirect or handle the error as needed
-    //       });
-    //   }, []);
+      // useEffect(() => {
+      //   fetch('http://localhost:8080/userinfo', { credentials: 'include', method: 'GET' })
+      //     .then(data => data.text())
+      //     .then(token => setAccessToken(token))
+      //     .then(user => setUserData(user)) // Do not set as state, stored in session storage OR in a HttpOnly cookie
+      //     .catch(() => { /* Redirect to http://localhost:8080/signin */ } );
+      // }, []);
 
     return (
         <>
