@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
-import { useUserInfoQuery, useSignoutMutation } from '../api/userAPi';
+import { useState, useEffect  } from 'react';
+import { NavLink } from 'react-router-dom';
+import { useSigninQuery, useUserInfoQuery, useSignoutMutation } from '../api/userAPi';
 import MenuIcon from '@mui/icons-material/Menu';
 import CloseIcon from '@mui/icons-material/Close';
 import LanguageIcon from '@mui/icons-material/Language';
@@ -11,11 +11,16 @@ import './navbar.css';
 export function Navbar() {
   const [anchorEl, setAnchorEl] = useState(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  // const [loggedIn, setLoggedIn] = useState(false);
   const { data: userInfo } = useUserInfoQuery();
-  const navigate = useNavigate();
-  const [signout, { isLoading: signoutLoading }] = useSignoutMutation();
+  // const { isLoading: signinLoading, refetch: refetchUserInfo } = useSigninQuery();
+  const [signout, { isLoading: signoutLoading }] = useSignoutMutation({
+    onSettled: () => {
+      refetchUserInfo(); // Refresh user info after signout
+    },
+  });
 
-  console.log(userInfo)
+  console.log('userInfo:', userInfo); 
   
   const handleStartSavingsClick = () => {
     if (!userInfo) {
@@ -35,14 +40,8 @@ export function Navbar() {
     setMobileMenuOpen(!mobileMenuOpen);
   };
 
-  const handleSignout = async () => {
-    try {
-      await signout();
-      navigate('/');
-      window.location.reload();
-    } catch (error) {
-      console.log('Error logging out:', error);
-    }
+  const handleSignout = () => {
+    signout();
   };
 
   return (
@@ -55,26 +54,35 @@ export function Navbar() {
           <ul>
             <li>
               <NavLink to="/" end activeclassname="active">
-                Home
+                        Home
               </NavLink>
             </li>
             <li>
               {userInfo ? (
                 <NavLink to="/goals" activeclassname="active">
-                  Goals
+                           Goals
                 </NavLink>
-              ) : (
+                           ) : (
                 <NavLink to="/signin" activeclassname="active" onClick={handleStartSavingsClick}>
-                  Start Your Savings Today
+                          Start Your Savings Today
                 </NavLink>
-              )}
-            </li>
-            <li>
-              <a href={userInfo ? '#' : 'http://localhost:8080/signin'} onClick={handleSignout}>
-                {userInfo ? 'Logout' : 'Login'}
-              </a>
-            </li>
-            <li>
+                          )}
+                </li>
+
+              <li>
+              {/* {userInfo ? (
+                <a href="#" onClick={handleSignout}>
+                  Logout
+                </a>
+              ) : (
+                <a href="http://localhost:8080/signin">Login</a>
+              )} */}
+                <a href={userInfo ? '#' : 'http://localhost:8080/signin'}>
+                      {userInfo ? 'Logout' : 'Login'}
+                </a>
+              </li>
+
+              <li>
               <IconButton color="inherit" onClick={handleMenuOpen}>
                 <LanguageIcon fontSize="medium" style={{ color: '#fff' }} />
               </IconButton>
@@ -88,8 +96,10 @@ export function Navbar() {
                 <Avatar alt={userInfo.name} src={userInfo.picture} />
               </li>
             )}
+
           </ul>
         </div>
+
         <div id="mobile">
           {mobileMenuOpen ? (
             <CloseIcon style={{ color: '#fff' }} onClick={handleMobileMenuToggle} />
@@ -98,8 +108,9 @@ export function Navbar() {
           )}
         </div>
       </nav>
+      
     </>
   );
-}
+} 
 
 

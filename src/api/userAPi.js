@@ -19,11 +19,8 @@ export const userApi = createApi({
     }),
     signout: builder.mutation({
       query: () => ({
-        method: 'POST',
-        url: '/signout',
-        headers: {
-         'Content-Type': 'application/json'
-    },
+        method: 'GET',
+        url: '/signout'
       })
     })
   })
