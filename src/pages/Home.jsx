@@ -1,24 +1,25 @@
-import { useState, useEffect } from 'react'
 import { Button } from "@mui/material";
 import { useUserInfoQuery } from '../api/userAPi';
-// import { HomeComponent } from '../components/HomeComponent'
-  
 
 export function Home() {
-    const [accessToken, setAccessToken] = useState('');
-    const [userData, setUserData] = useState('');
-    const { data } = useUserInfoQuery();
-    console.log(data)
+  const { data: userInfo } = useUserInfoQuery();
 
-    return (
-        <>
-        {/* <HomeComponent /> */}
-        <div style={{ backgroundColor: '#fff7de', minHeight: '100vh' }}>
-        <h2>Home Page</h2>
-        <Button variant="contained" size="large">
+  return (
+    <div style={{ backgroundColor: '#fff7de', minHeight: '100vh' }}>
+      {userInfo ? (
+        <h2>Welcome back, {userInfo.name}!</h2>
+      ) : (
+        <h2>Welcome to the Home page!</h2>
+      )}
+      {userInfo ? (
+        <Button variant="contained" size="large" href="/goals">
           Start Your Savings Today
         </Button>
-        </div>
-      </>
-    );
+      ) : (
+        <Button variant="contained" size="large" href="/signin">
+          Start Your Savings Today
+        </Button>
+      )}
+    </div>
+  );
 }
