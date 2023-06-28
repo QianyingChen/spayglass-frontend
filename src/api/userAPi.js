@@ -9,11 +9,11 @@ export const userApi = createApi({
     credentials: 'include'
   }),
   endpoints: (builder) => ({
-    // signin: builder.query({
-    //   query: () => ({ 
-    //     url: '/signin'
-    //   })
-    // }),
+    signin: builder.query({
+      query: () => ({ 
+        url: '/signin'
+      })
+    }),
     userInfo: builder.query({
       query: () => '/userinfo'
     }),

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { Box, Button, Container, Grid, TextField, LinearProgress, Typography } from '@mui/material';
 import {
   useCreateGoalMutation,
@@ -12,22 +11,17 @@ export function Goals() {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [picture, setPicture] = useState('');
-  // const [targetDate, setTargetDate] = useState('');
   const [targetDate, setTargetDate] = useState(new Date().toISOString().split('T')[0]);
   const [targetAmount, setTargetAmount] = useState('');
   const [currentAmount, setCurrentAmount] = useState('');
+  const [isEditMode, setIsEditMode] = useState(false); 
 
   const [errors, setErrors] = useState({});
 
   const { data: goals, isSuccess } = useGetGoalsQuery();
-  // const [createGoal] = useCreateGoalMutation();
   const [createGoal, { isLoading: isCreating }] = useCreateGoalMutation();
   const [updateGoal] = useUpdateGoalMutation();
   const [deleteGoal] = useDeleteGoalMutation();
-
-  // const today = new Date().toISOString().split('T')[0]; // Get today's date
-
-  // const [targetDate, setTargetDate] = useState(today); // Set default value as today's date
 
   const validateForm = () => {
     const newErrors = {};
@@ -316,7 +310,7 @@ export function Goals() {
                   </Button>
                 </Grid>
               </Grid>
-              {/* Delete Goal Button */}
+              {/* Delete Goal */}
               <Button
                 variant="contained"
                 color="error"
