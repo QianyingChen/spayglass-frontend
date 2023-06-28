@@ -1,334 +1,183 @@
-import React, { useEffect, useState } from 'react';
-import { Box, Button, Container, Grid, TextField, LinearProgress, Typography } from '@mui/material';
-import {
-  useCreateGoalMutation,
-  useDeleteGoalMutation,
-  useGetGoalsQuery,
-  useUpdateGoalMutation
-} from '../api/goalApi';
+import { useState, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { useCreateGoalMutation, useGetGoalsQuery, useUpdateGoalMutation, useDeleteGoalMutation } from '../api/goalApi';
+import { Card, CardContent, Typography, TextField, Button, LinearProgress, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions  } from '@mui/material';
+import { styled } from '@mui/material/styles';
+
+const StyledCard = styled(Card)({
+  width: '400px',
+  margin: 'auto',
+  marginTop: '20px',
+  padding: '20px',
+});
+
+const StyledTextField = styled(TextField)({
+  marginBottom: '10px',
+});
+
+const StyledButton = styled(Button)({
+  backgroundColor: 'green',
+  color: 'white',
+  '&:hover': {
+    backgroundColor: 'darkgreen',
+  },
+});
+
+const ProgressCard = styled(Card)({
+  width: '400px',
+  margin: 'auto',
+  marginTop: '20px',
+  padding: '20px',
+});
+
 
 export function Goals() {
-  const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
-  const [picture, setPicture] = useState('');
-  const [targetDate, setTargetDate] = useState(new Date().toISOString().split('T')[0]);
-  const [targetAmount, setTargetAmount] = useState('');
-  const [currentAmount, setCurrentAmount] = useState('');
-  const [isEditMode, setIsEditMode] = useState(false); 
+  const { register, handleSubmit, reset, formState: { errors } } = useForm();
+  const [createGoal, { isLoading, isError }] = useCreateGoalMutation();
+  const { data: goals, isFetching } = useGetGoalsQuery();
+  const [selectedGoal, setSelectedGoal] = useState(null);
 
-  const [errors, setErrors] = useState({});
-
-  const { data: goals, isSuccess } = useGetGoalsQuery();
-  const [createGoal, { isLoading: isCreating }] = useCreateGoalMutation();
-  const [updateGoal] = useUpdateGoalMutation();
-  const [deleteGoal] = useDeleteGoalMutation();
-
-  const validateForm = () => {
-    const newErrors = {};
-
-    if (!name.trim()) {
-      newErrors.name = 'Name is required';
-    }
-
-    const today = new Date().toISOString().split('T')[0];
-    if (!targetDate || targetDate < today) {
-      newErrors.targetDate = 'Target Date must be today or a future date';
-    }
-
-    if (!targetDate) {
-      newErrors.targetDate = 'Target Date is required';
-    }
-
-    if (Number(targetAmount) <= 0 || !targetAmount.trim()) {
-      newErrors.targetAmount = 'Target Amount should be a positive number';
-    }
-
-    setErrors(newErrors);
-
-    return Object.keys(newErrors).length === 0;
+  const onSubmit = (data) => {
+    createGoal(data)
+      .unwrap()
+      .then(() => {
+        reset();
+        window.location.reload(); // Refresh the page after successful goal creation
+      });
   };
 
   useEffect(() => {
-    if (isSuccess) {
-      // Fetch goals data
+    if (isError) {
+      reset();
     }
-  }, [isSuccess]);
+  }, [isError, reset]);
 
-  const handleCreateGoal = async () => {
-    const isValid = validateForm();
+  const handleViewDetails = (goal) => {
+    setSelectedGoal(goal);
+  };
 
-    if (isValid) {
-      try {
-        const newGoal = {
-          name,
-          description,
-          picture,
-          targetDate,
-          targetAmount: Number(targetAmount),
-          currentAmount: Number(currentAmount),
-        };
-
-        const { data } = await createGoal(newGoal).unwrap();
-
-        // Reset form fields
-        setName('');
-        setDescription('');
-        setPicture('');
-        setTargetDate('');
-        setTargetAmount('');
-        setCurrentAmount('');
-
-            window.location.reload();
-
-          } catch (error) {
-            console.log('Error creating goal:', error);
-          }
-        }
-      };
-
-        const handleUpdateGoal = async (id, updatedGoal) => {
-          try {
-            await updateGoal({ id, ...updatedGoal });
-            
-            window.location.reload();
-          } catch (error) {
-            console.log('Error updating goal:', error);
-          }
-        };
-
-        const handleDeleteGoal = async (id) => {
-          try {
-            await deleteGoal(id);
-
-            window.location.reload();
-          } catch (error) {
-            console.log('Error deleting goal:', error);
-          }
-        };
-
-        
+  const handleCloseDialog = () => {
+    setSelectedGoal(null);
+  };
 
   return (
-    <Container maxWidth="md">
-      <Typography variant="h4" align="center" gutterBottom>
-        Goals Page
-      </Typography>
-
-      {/* Create New Goal Form */}
-      <Box sx={{ mt: 4, mb: 2 }}>
-        <Typography variant="h6" gutterBottom>
-          Create New Goal
+    <>
+      <StyledCard>
+        <CardContent>
+        <Typography variant="h5" component="h2">
+          Create a New Goal
         </Typography>
-        <Grid container spacing={2}>
-          <Grid item xs={12} sm={6}>
-            <TextField
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div>
+            <StyledTextField
               label="Goal Name"
               fullWidth
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              {...register('name', { required: true })}
               error={!!errors.name}
-              helperText={errors.name}
+              helperText={errors.name ? 'Goal Name is required' : ''}
             />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              label="Description"
-              fullWidth
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              label="Picture"
-              fullWidth
-              value={picture}
-              onChange={(e) => setPicture(e.target.value)}
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
+          </div>
+          <div>
+            <StyledTextField
               label="Target Date"
               type="date"
               fullWidth
-              value={targetDate}
-              onChange={(e) => setTargetDate(e.target.value)}
+              defaultValue={new Date().toISOString().split('T')[0]}
+              {...register('targetDate', { required: true, min: new Date().toISOString().split('T')[0] })}
               error={!!errors.targetDate}
-              helperText={errors.targetDate}
-              inputProps={{
-                min: new Date().toISOString().split('T')[0], // Prevent selection of past dates
-              }}
+              helperText={errors.targetDate ? 'Target Date is required and should not be in the past' : ''}
             />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
+          </div>
+          <div>
+            <StyledTextField
+              label="Description"
+              fullWidth
+              {...register('description')}
+            />
+          </div>
+          <div>
+            <StyledTextField
+              label="Picture"
+              fullWidth
+              {...register('picture')}
+            />
+          </div>
+          <div>
+            <StyledTextField
               label="Target Amount"
               type="number"
               fullWidth
-              value={targetAmount}
-              onChange={(e) => setTargetAmount(e.target.value)}
+              {...register('targetAmount', { min: 0 })}
               error={!!errors.targetAmount}
-              helperText={errors.targetAmount}
+              helperText={errors.targetAmount ? 'Target Amount should be a positive number' : ''}
             />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              label="Current Amount"
+          </div>
+          <div>
+            <StyledTextField
+              label="Currently Saved Amount"
               type="number"
               fullWidth
-              value={currentAmount}
-              onChange={(e) => setCurrentAmount(e.target.value)}
+              {...register('currentAmount', { min: 0 })}
             />
-          </Grid>
-          <Grid item xs={12}>
-            <Button variant="contained" onClick={handleCreateGoal}>
-              Create
-            </Button>
-          </Grid>
-        </Grid>
-      </Box>
-
-      {/* List of Goals */}
-      <Box>
-        <Typography variant="h6" gutterBottom>
-          Goals List
-        </Typography>
-        <Grid container spacing={2}>
-        {goals && goals.length > 0 ? (
-          goals.map((goal) => (
-            <Grid item xs={12} sm={6}  key={goal.id}>
-                <Box sx={{ mt: 2, mb: 2 }}>
-              <Typography variant="h6">{goal.name}</Typography>
-              <Typography>{goal.description}</Typography>
-              <Typography>
-                Target Date: {new Date(goal.targetDate).toLocaleDateString()}
-              </Typography>
-              <Typography>
-                Target Amount: ${goal.targetAmount.toFixed(2)}
-              </Typography>
-              <Typography>
-                Current Amount: ${goal.currentAmount.toFixed(2)}
-              </Typography>
-
-              {/* Progress Bars */}
-              <Box
-                width="100%"
-                height="20px"
-                borderRadius="10px"
-                backgroundColor="#96151d"
-                overflow="hidden"
-                position="relative"
-              >
-                <Box
-                  height="100%"
-                  width={`${(goal.currentAmount / goal.targetAmount) * 100}%`}
-                  backgroundColor="#35cb3a"
-                />
-                <Box
-                  position="absolute"
-                  top="50%"
-                  left="50%"
-                  transform="translate(-50%, -50%)"
-                  color="white"
-                  fontWeight="bold"
-                  zIndex={1}
-                  fontSize="15px" 
-                  lineHeight="0" 
-                >
-                  {`${Math.round((goal.currentAmount / goal.targetAmount) * 100)}%`}
-                </Box>
-              </Box>
-              
-              {/* Update Goal Form */}
-              <Grid container spacing={2} sx={{ mt: 2 }}>
-                <Grid item xs={12} sm={6} >
-                  <TextField
-                    label="Updated Goal Name"
-                    fullWidth
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    label="Updated Description"
-                    fullWidth
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    label="Updated Picture"
-                    fullWidth
-                    value={picture}
-                    onChange={(e) => setPicture(e.target.value)}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    label="Updated Target Date"
-                    type="date"
-                    fullWidth
-                    value={targetDate}
-                    onChange={(e) => setTargetDate(e.target.value)}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    label="Updated Target Amount"
-                    type="number"
-                    fullWidth
-                    value={targetAmount}
-                    onChange={(e) => setTargetAmount(e.target.value)}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6}>
-                  <TextField
-                    label="Updated Current Amount"
-                    type="number"
-                    fullWidth
-                    value={currentAmount}
-                    onChange={(e) => setCurrentAmount(e.target.value)}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <Button
-                    variant="contained"
-                    onClick={() =>
-                      handleUpdateGoal(goal.id, {
-                        name,
-                        description,
-                        picture,
-                        targetDate,
-                        targetAmount: Number(targetAmount),
-                        currentAmount: Number(currentAmount)
-                      })
-                    }
-                  >
-                    Update
-                  </Button>
-                </Grid>
-              </Grid>
-              {/* Delete Goal */}
-              <Button
-                variant="contained"
-                color="error"
-                onClick={() => handleDeleteGoal(goal.id)}
-              >
-                Delete
-              </Button>
-            </Box>
-            </Grid>
-            ))
-          ) : (
-            <Grid item xs={12}>
-              <Typography>No goals found.</Typography>
-            </Grid>
+          </div>
+          <StyledButton type="submit" disabled={isLoading}>
+            Create Goal
+          </StyledButton>
+          {isError && (
+            <Typography color="error" variant="body1">
+              An error occurred while creating the goal.
+            </Typography>
           )}
-        </Grid>
-      </Box>
-    </Container>
+        </form>
+        </CardContent>
+      </StyledCard>
+
+      <ProgressCard>
+        <CardContent>
+          <Typography variant="h5" component="h2">
+            List of Goals
+          </Typography>
+          {isFetching ? (
+            <Typography variant="body1">Loading goals...</Typography>
+          ) : (
+            goals && goals.length > 0 ? (
+              goals.map((goal) => (
+                <div key={goal.id}>
+                  <Typography variant="body1">{goal.name}</Typography>
+                  <LinearProgress
+                    variant="determinate"
+                    value={(goal.currentAmount / goal.targetAmount) * 100}
+                    sx={{ height: '10px', borderRadius: '5px', marginTop: '5px' }}
+                  />
+                  <Typography variant="body2">
+                    {Math.round((goal.currentAmount / goal.targetAmount) * 100)}% completed
+                  </Typography>
+                  <Button onClick={() => handleViewDetails(goal)}>View Details</Button>
+                </div>
+              ))
+            ) : (
+              <Typography variant="body1">No goals found.</Typography>
+            )
+          )}
+        </CardContent>
+      </ProgressCard>
+
+      <Dialog open={selectedGoal !== null} onClose={handleCloseDialog}>
+        <DialogTitle>Goal Details</DialogTitle>
+        <DialogContent>
+          {selectedGoal && (
+            <DialogContentText>
+              Target Amount: {selectedGoal.targetAmount}
+              <br />
+              Remaining Amount: {selectedGoal.targetAmount - selectedGoal.currentAmount}
+            </DialogContentText>
+          )}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDialog}>Close</Button>
+        </DialogActions>
+      </Dialog>
+    </>
   );
 };
 

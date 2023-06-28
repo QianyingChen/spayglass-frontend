@@ -17,7 +17,7 @@ export function Home() {
   return (
     <div style={{ backgroundColor: '#fff7de', minHeight: '100vh' }}>
       {userInfo ? (
-        <h2>Welcome back, {userInfo.name}!</h2>
+        <h2>Welcome back, {userInfo.given_name}!</h2>
       ) : (
         <h2>Welcome to the Spyglass!</h2>
       )}
