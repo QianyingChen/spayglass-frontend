@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { Error } from './pages/Error';
+import { NotFound } from './pages/NotFound';
 import { Home } from "./pages/Home"; 
 import { Goals } from './pages/Goals';
 import { Navbar } from './components/NavBar';
@@ -14,7 +14,7 @@ const App = () => {
               <Route path="/" element={<Home />} />
               <Route path="/goals" element={<Goals />} />
               <Route path="/userinfo" element={<Profile />} />
-              <Route path="*" element={<Error />} />
+              <Route path="*" element={<NotFound />} />
           </Routes>        
       </BrowserRouter>
 
