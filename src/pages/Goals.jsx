@@ -43,7 +43,7 @@ export function Goals() {
       .unwrap()
       .then(() => {
         reset();
-        window.location.reload(); // Refresh the page after successful goal creation
+        window.location.reload(); 
       });
   };
 
