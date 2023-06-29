@@ -32,7 +32,7 @@ const ProgressCard = styled(Card)({
 });
 
 
-export function Goals() {
+export function BackupGoalList() {
   const { register, handleSubmit, reset, formState: { errors } } = useForm();
   const [createGoal, { isLoading, isError }] = useCreateGoalMutation();
   const { data: goals, isFetching } = useGetGoalsQuery();
@@ -181,6 +181,4 @@ export function Goals() {
     </>
   );
 };
-
-
 

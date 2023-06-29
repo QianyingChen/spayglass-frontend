@@ -21,12 +21,12 @@ import { useUserInfoQuery } from '../api/userApi';
 export function Profile() {
   const { isLoading, data: userInfo } = useUserInfoQuery();
   const { data: goals, isSuccess } = useGetGoalsQuery();
-  const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
-  const [picture, setPicture] = useState('');
-  const [targetDate, setTargetDate] = useState(new Date().toISOString().split('T')[0]);
-  const [targetAmount, setTargetAmount] = useState('');
-  const [currentAmount, setCurrentAmount] = useState('');
+  const [updatedName, setUpdatedName] = useState('');
+  const [updatedDescription, setUpdatedDescription] = useState('');
+  const [updatedPicture, setUpdatedPicture] = useState('');
+  const [updatedTargetDate, setUpdatedTargetDate] = useState(new Date().toISOString().split('T')[0]);
+  const [updatedTargetAmount, setUpdatedTargetAmount] = useState('');
+  const [updatedCurrentAmount, setUpdatedCurrentAmount] = useState('');
 
   const [errors, setErrors] = useState({});
 
@@ -37,20 +37,20 @@ export function Profile() {
   const validateForm = () => {
     const newErrors = {};
 
-    if (!name.trim()) {
+    if (!updatedName.trim()) {
       newErrors.name = 'Name is required';
     }
 
     const today = new Date().toISOString().split('T')[0];
-    if (!targetDate || targetDate < today) {
+    if (!updatedTargetDate || updatedTargetDate < today) {
       newErrors.targetDate = 'Target Date must be today or a future date';
     }
 
-    if (!targetDate) {
+    if (!updatedTargetDate) {
       newErrors.targetDate = 'Target Date is required';
     }
 
-    if (Number(targetAmount) <= 0 || !targetAmount.trim()) {
+    if (Number(updatedTargetAmount) <= 0 || !updatedTargetAmount.trim()) {
       newErrors.targetAmount = 'Target Amount should be a positive number';
     }
 
@@ -71,23 +71,23 @@ export function Profile() {
     if (isValid) {
       try {
         const newGoal = {
-          name,
-          description,
-          picture,
-          targetDate,
-          targetAmount: Number(targetAmount),
-          currentAmount: Number(currentAmount),
+          name: updatedName,
+          description: updatedDescription,
+          picture: updatedPicture,
+          targetDate: updatedTargetDate,
+          targetAmount: Number(updatedTargetAmount),
+          currentAmount: Number(updatedCurrentAmount),
         };
 
         const { data } = await createGoal(newGoal).unwrap();
 
         // Reset form fields
-        setName('');
-        setDescription('');
-        setPicture('');
-        setTargetDate('');
-        setTargetAmount('');
-        setCurrentAmount('');
+        setUpdatedName('');
+        setUpdatedDescription('');
+        setUpdatedPicture('');
+        setUpdatedTargetDate('');
+        setUpdatedTargetAmount('');
+        setUpdatedCurrentAmount('');
 
         window.location.reload();
       } catch (error) {
@@ -186,24 +186,24 @@ export function Profile() {
                   <TextField
                     label="Updated Goal Name"
                     fullWidth
-                    value={name}
-                    onChange={(e) => setName(e.target.value)}
+                    value={updatedName}
+                    onChange={(e) => setUpdatedName(e.target.value)}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <TextField
                     label="Updated Description"
                     fullWidth
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
+                    value={updatedDescription}
+                    onChange={(e) => setUpdatedDescription(e.target.value)}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
                   <TextField
                     label="Updated Picture"
                     fullWidth
-                    value={picture}
-                    onChange={(e) => setPicture(e.target.value)}
+                    value={updatedPicture}
+                    onChange={(e) => setUpdatedPicture(e.target.value)}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -211,8 +211,8 @@ export function Profile() {
                     label="Updated Target Date"
                     type="date"
                     fullWidth
-                    value={targetDate}
-                    onChange={(e) => setTargetDate(e.target.value)}
+                    value={updatedTargetDate}
+                    onChange={(e) => setUpdatedTargetDate(e.target.value)}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -220,8 +220,8 @@ export function Profile() {
                     label="Updated Target Amount"
                     type="number"
                     fullWidth
-                    value={targetAmount}
-                    onChange={(e) => setTargetAmount(e.target.value)}
+                    value={updatedTargetAmount}
+                    onChange={(e) => setUpdatedTargetAmount(e.target.value)}
                   />
                 </Grid>
                 <Grid item xs={12} sm={6}>
@@ -229,8 +229,8 @@ export function Profile() {
                     label="Updated Current Amount"
                     type="number"
                     fullWidth
-                    value={currentAmount}
-                    onChange={(e) => setCurrentAmount(e.target.value)}
+                    value={updatedCurrentAmount}
+                    onChange={(e) => setUpdatedCurrentAmount(e.target.value)}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -238,12 +238,12 @@ export function Profile() {
                     variant="contained"
                     onClick={() =>
                       handleUpdateGoal(goal.id, {
-                        name,
-                        description,
-                        picture,
-                        targetDate,
-                        targetAmount: Number(targetAmount),
-                        currentAmount: Number(currentAmount)
+                        name: updatedName,
+                        description: updatedDescription,
+                        picture: updatedPicture,
+                        targetDate: updatedTargetDate,
+                        targetAmount: Number(updatedTargetAmount),
+                        currentAmount: Number(updatedCurrentAmount)
                       })
                     }
                   >
@@ -272,3 +272,4 @@ export function Profile() {
     </Container>
   );
 }
+

@@ -48,25 +48,25 @@ export function Navbar() {
   return (
     <>
     <nav className="navbar">
-      <NavLink exact to="/" className="navbar-logo">
+      <NavLink exexact="true" to="/" className="navbar-logo">
         Spyglass
       </NavLink>
       <div id="navbar" className={mobileMenuOpen ? 'active' : ''}>
         <ul>
           <li>
-            <NavLink exact to="/" activeClassName="active">
+            <NavLink exact="true" to="/" activeclassname="active">
               Home
             </NavLink>
           </li>
           {userInfo ? (
             <>
               <li>
-                <NavLink to="/goals" activeClassName="active">
+                <NavLink to="/goals" activeclassname="active">
                   Goals
                 </NavLink>
               </li>
               <li>
-                <NavLink to="/userinfo" activeClassName="active">
+                <NavLink to="/userinfo" activeclassname="active">
                   Profile
                 </NavLink>
               </li>
@@ -79,7 +79,7 @@ export function Navbar() {
           ) : (
             <>
               <li>
-                <NavLink to="/signin" activeClassName="active" onClick={handleStartSavingsClick}>
+                <NavLink to="/signin" activeclassname="active" onClick={handleStartSavingsClick}>
                   Start Your Savings Today
                 </NavLink>
               </li>

@@ -2,6 +2,7 @@ import { Button } from "@mui/material";
 import { useUserInfoQuery } from '../api/userAPi';
 import { useNavigate } from 'react-router-dom';
 
+
 export function Home() {
   const { data: userInfo } = useUserInfoQuery();
   const navigate = useNavigate();
@@ -17,9 +18,9 @@ export function Home() {
   return (
     <div style={{ backgroundColor: '#fff7de', minHeight: '100vh' }}>
       {userInfo ? (
-        <h2>Welcome back, {userInfo.given_name}!</h2>
+        <h2>Welcome back, {userInfo.name}!</h2>
       ) : (
-        <h2>Welcome to the Spyglass!</h2>
+        <h2>Welcome to the Spyglass</h2>
       )}
       <Button
         variant="contained"
@@ -28,6 +29,7 @@ export function Home() {
       >
         Start Your Savings Today
       </Button>
+
     </div>
   );
 }
