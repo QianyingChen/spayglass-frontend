@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { useCreateGoalMutation, useGetGoalsQuery, useUpdateGoalMutation, useDeleteGoalMutation } from '../api/goalApi';
+import { useCreateGoalMutation, useGetGoalsQuery, useUpdateGoalMutation, useDeleteGoalMutation, useGetGoalsQuery } from '../api/goalApi';
 import { Card, CardContent, Typography, TextField, Button, LinearProgress, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions  } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
