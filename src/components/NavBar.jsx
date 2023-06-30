@@ -17,7 +17,7 @@ export function Navbar() {
 
   const handleStartSavingsClick = () => {
     if (!userInfo) {
-      window.location.replace(`${import.meta.env.VITE_API_URL}/signin`); // Redirect to sign-in page
+      window.location.replace(`${import.meta.env.VITE_API_URI}/signin`); // Redirect to sign-in page
     }
   };
 

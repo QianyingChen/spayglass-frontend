@@ -68,6 +68,7 @@ const Profile = () => {
 
   return (
     <>
+    
       <ProgressCard sx={{ width: '650px' }}>
         <CardContent>
           <Typography variant="h5" component="h2">

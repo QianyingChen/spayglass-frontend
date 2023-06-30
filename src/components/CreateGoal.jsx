@@ -116,9 +116,9 @@ export function CreateGoal() {
   }
  return (
   <>
-
-<ProgressCard>
-       <CardContent>
+ {/* <div style={{ backgroundColor: '#fbf9d8ee', minHeight: '100vh' }}> */}
+    <ProgressCard style={{ marginTop: '50px' }}>
+       <CardContent >
          <Typography variant="h5" component="h2">
          Hi！Here's your goals' progress
          
@@ -273,8 +273,7 @@ export function CreateGoal() {
      </form>
      </CardContent>
  </StyledCard>
-
-    
+ {/* </div> */}
    </>
  );
 }

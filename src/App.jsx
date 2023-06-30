@@ -6,7 +6,6 @@ import { Navbar } from './components/NavBar';
 import  Profile  from './pages/Profile';
 
 
-
 const App = () => {
   return (
        <BrowserRouter>
