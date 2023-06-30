@@ -11,9 +11,17 @@ export function Home() {
     if (userInfo) {
       navigate('/goals'); // Redirect to goals page if user is logged in
     } else {
-      window.location.replace('http://localhost:8080/signin'); // Redirect to login page if user is not logged in
+      window.location.replace(`${import.meta.env.VITE_API_URL}/signin`); // Redirect to login page if user is not logged in
     }
   };
+  // const handleStartSavingsClick = () => {
+  //   if (userInfo) {
+  //     navigate('/goals'); // Redirect to goals page if user is logged in
+  //   } else {
+  //     window.location.replace('http://localhost:8080/signin'); // Redirect to login page if user is not logged in
+  //   }
+  // };
+  
 
   return (
     <div style={{ backgroundColor: '#fff7de', minHeight: '100vh' }}>

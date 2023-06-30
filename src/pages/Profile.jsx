@@ -68,19 +68,19 @@ const Profile = () => {
 
   return (
     <>
-      <StyledCard>
+      {/* <StyledCard>
         <CardContent>
           <Typography variant="h5" gutterBottom>
             Profile
           </Typography>
-          <Typography variant="body1">Welcome to the profile page,{userInfo.given_name} !</Typography>
+          <Typography variant="body1">Welcome to your Profile, where you can effortlessly track and manage your financial aspirations through the Spyglass !</Typography>
         </CardContent>
-      </StyledCard>
+      </StyledCard> */}
 
       <ProgressCard>
         <CardContent>
           <Typography variant="h5" component="h2">
-            List of Goals
+          Welcome to the Goals List !
           </Typography>
           {isFetching ? (
             <Typography variant="body1">Loading goals...</Typography>
@@ -92,8 +92,9 @@ const Profile = () => {
                   <Typography variant="body2">Start Date: {goal.startDate}</Typography>
                   <Typography variant="body2">Target Date: {goal.targetDate}</Typography>
                   <CardContent>
-                    <img
-                      src={`http://localhost:8080/goals/${goal.id}/goal-image`}
+                    <img   
+                      // src={`http://localhost:8080/goals/${goal.id}/goal-image`}
+                      src={`${import.meta.env.VITE_API_URI}/goals/${goal.id}/goal-image`}
                       alt="Goal"
                       style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }}
                     />
@@ -136,7 +137,8 @@ const Profile = () => {
             <>
               <CardContent>
                 <img
-                  src={`http://localhost:8080/goals/${selectedGoal.id}/goal-image`}
+                  // src={`http://localhost:8080/goals/${selectedGoal.id}/goal-image`}
+                  src={`${import.meta.env.VITE_API_URI}/goals/${selectedGoal.id}/goal-image`}
                   alt="Goal"
                   style={{ maxWidth: '100%', maxHeight: '100%', objectFit: 'contain' }}
                 />

@@ -5,7 +5,7 @@ const apiUrl = import.meta.env.VITE_API_URL;
 export const goalApi = createApi({
   reducerPath: 'goalApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: apiUrl,
+    baseUrl: import.meta.env.VITE_API_URI,
     credentials: 'include'
   }),
   endpoints: (builder) => ({

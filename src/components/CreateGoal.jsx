@@ -127,13 +127,14 @@ export function CreateGoal() {
           <FormControl fullWidth margin="normal">
           <label htmlFor="goalName">Goal Name:</label>
             {/* <InputLabel htmlFor="goalName">Goal Name:</InputLabel> */}
-            <CustomTextField
-              id="goalName"
-              value={inputGoalName}
-              onChange={(e) => setInputGoalName(e.target.value)}
-              fullWidth
-              variant="standard"
-            />
+            <TextField
+  required
+  id="goalName"
+  value={inputGoalName}
+  onChange={(e) => setInputGoalName(e.target.value)}
+  fullWidth
+  variant="standard"
+/>
           </FormControl>
         </Box>
         <Box sx={{ width: '300px', margin: '10px' }}>

@@ -12,12 +12,14 @@ nav {
   font-size: 2.2rem;
   font-weight: bold;
   color: #fff;
+  font-family: Arial, sans-serif;
 }
 
 #navbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  font-family: Arial, sans-serif;
 }
 
 #navbar ul {

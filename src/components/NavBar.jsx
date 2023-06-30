@@ -17,10 +17,16 @@ export function Navbar() {
 
   const handleStartSavingsClick = () => {
     if (!userInfo) {
-      window.location.replace('http://localhost:8080/signin'); // Redirect to sign-in page
+      window.location.replace(`${import.meta.env.VITE_API_URL}/signin`); // Redirect to sign-in page
     }
   };
 
+  // const handleStartSavingsClick = () => {
+  //   if (!userInfo) {
+  //     window.location.replace('http://localhost:8080/signin'); // Redirect to sign-in page
+  //   }
+  // };
+  
   const handleMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -88,7 +94,7 @@ export function Navbar() {
               </li>
             </>
           )}
-          <li>
+          {/* <li>
             <IconButton color="inherit" onClick={handleMenuOpen}>
               <LanguageIcon fontSize="medium" style={{ color: '#fff' }} />
             </IconButton>
@@ -96,7 +102,7 @@ export function Navbar() {
               <MenuItem onClick={() => i18n.changeLanguage('en')}>English</MenuItem>
               <MenuItem onClick={() => i18n.changeLanguage('cn')}>Chinese</MenuItem>
             </Menu>
-          </li>
+          </li> */}
           {userInfo && (
             <li className="user-profile">
               <Avatar alt={userInfo.name} src={userInfo.picture} onClick={handleUserProfileMenuToggle} />
