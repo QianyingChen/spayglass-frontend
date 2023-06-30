@@ -116,6 +116,53 @@ export function CreateGoal() {
   }
  return (
   <>
+
+<ProgressCard>
+       <CardContent>
+         <Typography variant="h5" component="h2">
+         Hi！Here's your goals' progress
+         
+         </Typography>
+         {isFetching ? (
+           <Typography variant="body1">Loading goals...</Typography>
+         ) : (
+           goals && goals.length > 0 ? (
+             goals.map((goal) => (
+               <div key={goal.id}>
+                 <Typography variant="body1">{goal.name}</Typography>
+                 <LinearProgress
+                   variant="determinate"
+                   value={(goal.currentAmount / goal.targetAmount) * 100}
+                   sx={{ height: '10px', borderRadius: '5px', marginTop: '5px' }}
+                 />
+                 <Typography variant="body2">
+                   {Math.round((goal.currentAmount / goal.targetAmount) * 100)}% completed
+                 </Typography>
+                 <Button onClick={() => handleViewDetails(goal)}>View Details</Button>
+               </div>
+             ))
+           ) : (
+             <Typography variant="body1">No goals found.</Typography>
+           )
+         )}
+       </CardContent>
+     </ProgressCard>
+
+     <Dialog open={selectedGoal !== null} onClose={handleCloseDialog}>
+       <DialogTitle>Goal Details</DialogTitle>
+       <DialogContent>
+         {selectedGoal && (
+           <DialogContentText>
+             Target Amount: {selectedGoal.targetAmount}
+             <br />
+             Remaining Amount: {selectedGoal.targetAmount - selectedGoal.currentAmount}
+           </DialogContentText>
+         )}
+       </DialogContent>
+       <DialogActions>
+         <Button onClick={handleCloseDialog}>Close</Button>
+       </DialogActions>
+     </Dialog>
   <StyledCard>
   <CardContent>
     <Typography variant="h5" gutterBottom>
@@ -128,13 +175,13 @@ export function CreateGoal() {
           <label htmlFor="goalName">Goal Name:</label>
             {/* <InputLabel htmlFor="goalName">Goal Name:</InputLabel> */}
             <TextField
-  required
-  id="goalName"
-  value={inputGoalName}
-  onChange={(e) => setInputGoalName(e.target.value)}
-  fullWidth
-  variant="standard"
-/>
+                  required
+                  id="goalName"
+                  value={inputGoalName}
+                  onChange={(e) => setInputGoalName(e.target.value)}
+                  fullWidth
+                  variant="standard"
+                />
           </FormControl>
         </Box>
         <Box sx={{ width: '300px', margin: '10px' }}>
@@ -167,22 +214,22 @@ export function CreateGoal() {
          />
        </Box>
        <Box sx={{ width: '300px', margin: '10px' }}>
-  <label htmlFor="startDate">Start Date:</label>
-  <TextField
-    id="startDate"
-    value={inputStartDate}
-    onChange={(e) => setInputStartDate(e.target.value)}
-    fullWidth
-    variant="outlined"
-    label="Start Date"
-    margin="normal"
-    type="date"
-    InputProps={{
-      inputProps: { max: today }, // Disable selecting dates in the future
-    }}
-    required
-  />
-</Box>
+         <label htmlFor="startDate">Start Date:</label>
+        <TextField
+          id="startDate"
+          value={inputStartDate}
+          onChange={(e) => setInputStartDate(e.target.value)}
+          fullWidth
+          variant="outlined"
+          label="Start Date"
+          margin="normal"
+          type="date"
+          InputProps={{
+            inputProps: { max: today }, // Disable selecting dates in the future
+          }}
+          required
+        />
+      </Box>
       <Box sx={{ width: '300px', margin: '10px' }}>
         <label htmlFor="targetDate">Target Date:</label>
         <TextField
@@ -226,51 +273,8 @@ export function CreateGoal() {
      </form>
      </CardContent>
  </StyledCard>
-     <ProgressCard>
-       <CardContent>
-         <Typography variant="h5" component="h2">
-           List of Goals
-         </Typography>
-         {isFetching ? (
-           <Typography variant="body1">Loading goals...</Typography>
-         ) : (
-           goals && goals.length > 0 ? (
-             goals.map((goal) => (
-               <div key={goal.id}>
-                 <Typography variant="body1">{goal.name}</Typography>
-                 <LinearProgress
-                   variant="determinate"
-                   value={(goal.currentAmount / goal.targetAmount) * 100}
-                   sx={{ height: '10px', borderRadius: '5px', marginTop: '5px' }}
-                 />
-                 <Typography variant="body2">
-                   {Math.round((goal.currentAmount / goal.targetAmount) * 100)}% completed
-                 </Typography>
-                 <Button onClick={() => handleViewDetails(goal)}>View Details</Button>
-               </div>
-             ))
-           ) : (
-             <Typography variant="body1">No goals found.</Typography>
-           )
-         )}
-       </CardContent>
-     </ProgressCard>
 
-     <Dialog open={selectedGoal !== null} onClose={handleCloseDialog}>
-       <DialogTitle>Goal Details</DialogTitle>
-       <DialogContent>
-         {selectedGoal && (
-           <DialogContentText>
-             Target Amount: {selectedGoal.targetAmount}
-             <br />
-             Remaining Amount: {selectedGoal.targetAmount - selectedGoal.currentAmount}
-           </DialogContentText>
-         )}
-       </DialogContent>
-       <DialogActions>
-         <Button onClick={handleCloseDialog}>Close</Button>
-       </DialogActions>
-     </Dialog>
+    
    </>
  );
 }

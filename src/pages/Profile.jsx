@@ -68,16 +68,7 @@ const Profile = () => {
 
   return (
     <>
-      {/* <StyledCard>
-        <CardContent>
-          <Typography variant="h5" gutterBottom>
-            Profile
-          </Typography>
-          <Typography variant="body1">Welcome to your Profile, where you can effortlessly track and manage your financial aspirations through the Spyglass !</Typography>
-        </CardContent>
-      </StyledCard> */}
-
-      <ProgressCard>
+      <ProgressCard sx={{ width: '650px' }}>
         <CardContent>
           <Typography variant="h5" component="h2">
           Welcome to the Goals List !
@@ -86,9 +77,11 @@ const Profile = () => {
             <Typography variant="body1">Loading goals...</Typography>
           ) : goals && goals.length > 0 ? (
             goals.map((goal) => (
-              <Card key={goal.id} sx={{ marginBottom: '10px' }}>
+              <Card key={goal.id} sx={{ marginBottom: '20px', width: '600px' }}>
                 <CardContent>
-                  <Typography variant="body1">Goal Name: {goal.name}</Typography>
+                <Typography variant="body1">
+                  Goal Name:<strong>{goal.name}</strong> 
+                  </Typography>
                   <Typography variant="body2">Start Date: {goal.startDate}</Typography>
                   <Typography variant="body2">Target Date: {goal.targetDate}</Typography>
                   <CardContent>
